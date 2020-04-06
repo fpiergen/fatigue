@@ -16,3 +16,11 @@ optional arguments:
   --span SPAN, -span SPAN
                         Span of beam
 ```
+
+- Modified Irvine VRS  code to seperate out objects to make it easier to add to and understand
+- Modified Irvine VRS gui to include response of single natural frequency
+- To use  go into reference/thankYouIrvine
+```Python
+python3 vrsGui.py
+```
+
