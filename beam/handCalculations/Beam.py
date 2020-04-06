@@ -8,7 +8,7 @@ class Beam(ABC):
         self.m = m
         self.span = span
 
-# See beam.df in references, equation E-42
+# See beam.pdf in references, equation E-42
 # First bending natural frequency
     def natFreqSimplySupportedPointMass(self):
         return 1/(2*math.pi)*6.928*((self.E*self.I)/(self.m*self.span**3))**0.5

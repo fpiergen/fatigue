@@ -2,8 +2,8 @@ from Beam import Beam
 
 class BoxBeam(Beam):
 
-    def __init__(self, w, h, th):
-        super().__init__(29e6, 60/386.4, 43)
+    def __init__(self, w, h, th, E, wt, span):
+        super().__init__(E, wt/386.4, span)
         self.w = w
         self.h = h
         self.th = th
