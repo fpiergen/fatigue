@@ -1,4 +1,4 @@
-from Beam import Beam
+from beam import Beam
 
 class BoxBeam(Beam):
 

@@ -16,6 +16,14 @@ class VRAtFn:
         self._zeta = 1./(2.*Q)
         self.__calculateVRAtFn()
 
+    @property
+    def fi(self):
+        return self._fi
+
+    @property
+    def vrAtFn(self):
+        return self._vrAtFn
+
     def __calculateVRAtFn(self):
         rhoi =  self._fi/self._fn
         self._vrAtFn = ((1 + (2*self._zeta*rhoi)**2) / ((1 - rhoi**2)**2 + (2*self._zeta*rhoi)**2)) * self._ai
@@ -23,7 +31,7 @@ class VRAtFn:
     def calculateRMS(self):
         area = trapz(self._vrAtFn, self._fi)
         grms = area**(1/2)
-        print("GRMS =", grms)
+        print("GRMS(fn=",  float(round(self._fn,1)) , "hz) =", grms)
         return  grms;
 
 

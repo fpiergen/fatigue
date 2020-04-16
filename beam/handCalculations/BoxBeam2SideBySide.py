@@ -1,4 +1,4 @@
-from Beam import Beam
+from beam import Beam
 
 class BoxBeam2SideBySide(Beam):
 
@@ -9,6 +9,7 @@ class BoxBeam2SideBySide(Beam):
         self.th = th
         self.I = self.momentOfInertia()*2
         self.fn = self.natFreqSimplySupportedPointMass()
+        #self.maxStress = self.maxStressSimplySupportedPointMass(gs)
 
     def momentOfInertia(self):
         return 1/12*(self.w*self.h**3 - (self.w-2*self.th)*((self.h-2*self.th))**3)

@@ -34,9 +34,12 @@ if sys.version_info[0] == 3:
 
 class VRSExporter:
 
-    def __init__(self, ff, rdvrs, avrs, tsvrs, nsvrs, num_fn, ne):    
+    def __init__(self, num_fi, fi, vrAtFn, ff, rdvrs, avrs, tsvrs, nsvrs, num_fn, ne):    
 
 
+        self.num_fi=num_fi
+        self.fi=fi
+        self.vrAtFn=vrAtFn
         self.ff=ff
         self.rdvrs=rdvrs
         self.avrs=avrs
@@ -65,4 +68,7 @@ class VRSExporter:
 
         if(self.ne==3):
             WriteData2(self.num_fn,self.ff,self.rdvrs,output_file)             
+
+        if(self.ne==4):
+            WriteData2(self.num_fi, self.fi, self.vrAtFn, output_file)             
 

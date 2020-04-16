@@ -51,6 +51,7 @@ class VRSGUI:
 
         self.psdInput = PSDInput()
         self.vrsCalculator=''
+        self.vrAtFn=''
 
         self.master=parent        # store the parent
         top = tk.Frame(parent)    # frame for all class widgets
@@ -195,7 +196,8 @@ class VRSGUI:
         self.Lbe.insert(1, "Accel VRS GRMS")
         self.Lbe.insert(2, "Accel VRS 3-sigma")
         self.Lbe.insert(3, "Accel VRS n-sigma")
-        self.Lbe.insert(4, "Rel Disp VRS RMS")        
+        self.Lbe.insert(4, "Rel Disp VRS RMS")
+        self.Lbe.insert(5, "Vibration Response at Fn")
 
         self.Lbe.grid(row=crow, column=1, pady=2,sticky=tk.N)
         self.Lbe.select_set(0)  
@@ -206,8 +208,9 @@ class VRSGUI:
 #
     def plotAtFn(self):
         print(self.fn.get())
-        vrAtFn = VRAtFn(self.psdInput, float(self.df.get()), float(self.fn.get()), float(self.Qr.get()))
-        vrAtFn.plotVRAtFn()
+        self.vrAtFn = VRAtFn(self.psdInput, float(self.df.get()), float(self.fn.get()), float(self.Qr.get()))
+        self.vrAtFn.plotVRAtFn()
+        self.button_export.config(state = 'normal')
 
     def readData(self):
         self.psdInput.readData(self.master)
@@ -228,9 +231,8 @@ class VRSGUI:
 
     def export(self):
         ne= int(self.Lbe.curselection()[0])
-        vrsExporter = VRSExporter(self.vrsCalculator.ff,
-                self.vrsCalculator.rdvrs, self.vrsCalculator.avrs,
-                self.vrsCalculator.tsvrs, self.vrsCalculator.nsvrs, self.vrsCalculator.numFn, ne)
+        num_fi = len(self.vrAtFn.fi)
+        vrsExporter = VRSExporter(num_fi, self.vrAtFn.vrAtFn, self.vrAtFn.fi, self.vrsCalculator.ff, self.vrsCalculator.rdvrs, self.vrsCalculator.avrs, self.vrsCalculator.tsvrs, self.vrsCalculator.nsvrs, self.vrsCalculator.numFn, ne)
         vrsExporter.export(self.master)
 
     def quit(root):
