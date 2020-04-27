@@ -19,18 +19,23 @@ from numpy import array,zeros,log,pi,sqrt,floor
 
 from matplotlib.ticker import ScalarFormatter
 import matplotlib.pyplot as plt
+import sys
+#sys.path.append("../../../utilities")
+sys.path.append("../../utilities")
+from myUtilities import MyUtilities
 
 
 ###############################################################################
 
 class PSDInput:
 
-    def __init__(self):
+    def __init__(self, file_path=''):
 
         self.f_=[]
         self.a_=[]
         self.slope_=[]
         self.grms_in=0
+        self.file_path = file_path
 
 ###############################################################################
 
@@ -57,7 +62,11 @@ class PSDInput:
         print (" ")
         print (" The input file must have two columns: freq(Hz) & accel(G^2/Hz)")
 
-        f,a,num =read_two_columns_from_dialog('Select Input File',master)
+        (f,a,num) = '','',''
+        if ( self.file_path == ''):
+            f,a,num =read_two_columns_from_dialog('Select Input File',master)
+        else:
+            f,a,num = MyUtilities.readFile(self.file_path)
 
         print ("\n samples = %d " % num)
 

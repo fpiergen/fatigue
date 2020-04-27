@@ -14,10 +14,16 @@ a more advanced fatigue technique called Dirlik. Finally we will try to use Calc
 ```Python
 python3 vrsGui.py
 ```
+- With this gui you can export the psd response to be used with Dirlik method.
+
 - Created taxiTopSupport and cantileverIrvine using strategy pattern. Use python3 <>.py --help to see input
 (See also minersFatigueSolver abstract class)
-- cantileverIrvine solves the problem outlined in beam.pdf in reference directory
+- cantileverIrvine solves the problem outlined in RFatigue.pdf in reference directory
 - taxitopSupport uses the same technique on the support for taxitop
-- With this gui you can export the psd response to be used with Dirlik method.
-- TODO: Next use Dirlik's method to see how it compares to procedure above (beam.pdf)
+- taxitopSupportDirlik uses the Dirlik fatigue method 
+
+```Python
+python3 taxiTopSupportUsingDirlik.py -w 1.5 -ht 0.75 -th .065 -E 10e6 -wt 20 -span 43 -df 0.5 -Q 10 -dur 1440 -df 0.5 -pf ISO16750-PSD-SPRUNG.dat
+```
+- NEXT:  Build an FE model of beam and get stress for harmonic input of base with RMS accelerations from PSD input. Use that as psd stress for input into the Dirlik fatigue method.
 

@@ -16,6 +16,7 @@ class MinersFatigueBeamSolver(ABC):
         self.dur = dur
         self.df = df
         self.Q = Q
+        self.psd = ''
 
     @staticmethod
     def getHelpParser(description ):
@@ -66,6 +67,17 @@ class MinersFatigueBeamSolver(ABC):
         vr = VRAtFn(psd, self.df, fn, self.Q)
         self.gsRMS = vr.calculateRMS()
 
+    def psdInput1(self, master):
+        psd = PSDInput()
+        psd.readData(master)
+        self.psd = psd
+
+    def psdInput2(self, file_path):
+        psd = PSDInput(file_path)
+        psd.readData('')
+        self.psd = psd
+
+
     @abstractmethod
     def N(self, S):
         pass
@@ -77,6 +89,9 @@ class MinersFatigueBeamSolver(ABC):
     def plotSOfN(self):
         N1 = np.arange(1.0, 10e9, 10000)
         plt.figure()
+        plt.title("S/N curve of material")
+        plt.xlabel("Cycles")
+        plt.ylabel("Stress")
         plt.semilogx(N1, self.S(N1))
         plt.show()
 

@@ -2,6 +2,11 @@ from minersFatigueBeamSolver import MinersFatigueBeamSolver
 from context import Context
 from boxBeam2SideBySide import BoxBeam2SideBySide
 import numpy as np
+import sys
+sys.path.append("../../reference/thankYouIrvine")
+sys.path.append("../../../utilities")
+from vrAtFn import VRAtFn
+from myUtilities import MyUtilities
 
 class TaxiTopSupport(MinersFatigueBeamSolver):
 
@@ -17,6 +22,7 @@ class TaxiTopSupport(MinersFatigueBeamSolver):
         self.Q = args.Q
         self.dur = args.dur
         self.th = args.th
+        self.psdFilePath = args.pf
 
     def N(self, S):
         return  10**((34809 - S)/2466)
@@ -30,10 +36,15 @@ class TaxiTopSupport(MinersFatigueBeamSolver):
         fn = context.strategy.fn
 
         # input PSD
-        self.psdInput(fn)
+        self.psdInput2(self.psdFilePath)
+
+        # get the gsRms for response of a SDOD system with fn
+        vr = VRAtFn(self.psd, self.df, fn, self.Q)
+        self.gsRMS = vr.calculateRMS()
 
         self.plotSOfN()
         # Calculate the stress levels based on the gs and MC/I
+        vr.plotVRAtFn()
 
         oneSigma = context.strategy.maxStressSimplySupportedPointMass (self.gsRMS) 
         print("See table that will open up on your default browser.  This will show the 1,2, and 3 sigma stresses for {:.1f} hz, corresponding cycles and n/N".format(fn))
@@ -51,28 +62,10 @@ parser.add_argument('--th', '-th', dest="th", type=float, \
                     action='store', \
                     help="Thickness of box section")
 
-args = parser.parse_args()
+parser.add_argument('--pf', '-pf', dest="pf", type=str, \
+                    action='store', \
+                    help="Base input psd file")
 
+args = parser.parse_args()
 taxiTop = TaxiTopSupport(args)
 taxiTop.fatigueMe();
-'''
-print("________________________________________________________________________________")
-print("Fatigue results for simply supported beam two side by side with given crossection")
-print("________________________________________________________________________________")
-# First let's get the first bending frequency from the simply supported beam.
-context = Context(BoxBeam2SideBySide(w, ht, th, E, wt, span))
-fn = context.strategy.fn
-
-# Next get the rms gs for the natural frequency and selected PSD
-root = tk.Tk()
-root.withdraw()
-psd = PSDInput()
-psd.readData(root)
-vr = VRAtFn(psd, df, fn, Q)
-gsRMS = vr.calculateRMS()
-
-# Now get the stress levels
-
-print("Max Bending Stress: " ,
-        float(round(context.strategy.maxStressSimplySupportedPointMass(gsRMS),3)))
-        '''
